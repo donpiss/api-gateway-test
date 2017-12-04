@@ -1,6 +1,9 @@
 package com.example.apigateway.config;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +34,23 @@ public class SimpleFilter extends ZuulFilter {
 	public Object run() {
 		RequestContext ctx = RequestContext.getCurrentContext();
 		HttpServletRequest request = ctx.getRequest();
-
-		log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+		HttpServletResponse response = ctx.getResponse();
+		System.out.println(request.getMethod());
+		System.out.println(request.getRequestURL().toString());
+		Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            System.out.println(key + " -- " + value);
+        }
+        System.out.println(request.getRemoteAddr());
+        System.out.println(request.getRemoteHost());
+        System.out.println(request.getRemotePort());
+        System.out.println(request.getRemoteUser());
+        System.out.println(response.getStatus());
+        System.out.println(ctx.getResponseStatusCode());
+        System.out.println(ctx.getResponseBody());
+        log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 		log.debug(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 		log.warn(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
 
