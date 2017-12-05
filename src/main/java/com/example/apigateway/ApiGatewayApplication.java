@@ -5,7 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 
-import com.example.apigateway.config.SimpleFilter;
+import com.example.apigateway.config.ErrorFilter;
+import com.example.apigateway.config.PreFilter;
+import com.example.apigateway.config.RouteFilter;
+import com.example.apigateway.config.PostFilter;
 
 @SpringBootApplication
 @EnableZuulProxy
@@ -16,7 +19,22 @@ public class ApiGatewayApplication {
 	}
 
 	@Bean
-	public SimpleFilter simpleFilter() {
-		return new SimpleFilter();
+	public PostFilter simpleFilter() {
+		return new PostFilter();
+	}
+
+	@Bean
+	public ErrorFilter errorFilter() {
+		return new ErrorFilter();
+	}
+
+	@Bean
+	public PreFilter preFilter() {
+		return new PreFilter();
+	}
+
+	@Bean
+	public RouteFilter routeFilter() {
+		return new RouteFilter();
 	}
 }
